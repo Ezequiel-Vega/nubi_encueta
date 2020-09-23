@@ -1,0 +1,7 @@
+/env
+/docker
+.gitignore
+.env
+README.md
+start.sh
+docker-compose.yaml
