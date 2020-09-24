@@ -1,5 +1,5 @@
 import datetime
-import bcrypt
+from app import bcrypt
 from app import sqlAlchemy as db
 
 class User(db.Model):
@@ -22,14 +22,10 @@ class User(db.Model):
         return f'<User {self.username}>'
 
     def encrypt_password(self, password: str):
-        password_encode = password.encode('utf-8')
-        SALT = bcrypt.gensalt(10)
-        self.password = bcrypt.hashpw(password_encode, SALT)
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password: str):
-        password_encode = password.encode()
-        password_encrypt_encode = self.password.encode()
-        return bcrypt.checkpw(password_encode, password_encrypt_encode)
+        return bcrypt.check_password_hash(self.password, password)
 
     def save(self):
         if not self.id:
