@@ -4,6 +4,9 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 
+# Iniciar base de datos
+sqlAlchemy = SQLAlchemy()
+
 def __config(app: Flask):
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secretkey')
     app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'jwtsecretkey')
@@ -39,9 +42,8 @@ def create_app() -> Flask:
     # Iniciar JWT
     _jwt = JWTManager(_app)
     
-    # Iniciar base de datos
-    _sqlAlchemy = SQLAlchemy()
-    _sqlAlchemy.init_app(_app)
+    # Crear tablas
+    sqlAlchemy.init_app(_app)
     
     # Llamar a las rutas
     __routes(_app)
