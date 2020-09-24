@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 # Iniciar base de datos
 sqlAlchemy = SQLAlchemy()
 
-def __config(app: Flask):
+def config(app: Flask):
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secretkey')
     app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'jwtsecretkey')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
@@ -16,7 +16,7 @@ def __config(app: Flask):
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-def __routes(app: Flask):
+def routes(app: Flask):
     from .admin import admin_bp
     from .auth import auth_bp
     from .history import history_bp
@@ -31,22 +31,22 @@ def __routes(app: Flask):
 
 def create_app() -> Flask:
     # Inctanciar objetos
-    _app = Flask(__name__)
+    app = Flask(__name__)
 
     # Llamar a las configuraciones
-    __config(_app)
+    config(app)
     
     # Iniciar CORS
-    _cors = CORS(_app, resources={r"/api/*": {"origins": "*"}})
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     # Iniciar JWT
-    _jwt = JWTManager(_app)
+    jwt = JWTManager(app)
     
-    # Crear tablas
-    sqlAlchemy.init_app(_app)
+    # Iniciar app
+    sqlAlchemy.init_app(app)
     
     # Llamar a las rutas
-    __routes(_app)
+    routes(app)
 
     # Retornar app de flask
-    return _app
+    return app

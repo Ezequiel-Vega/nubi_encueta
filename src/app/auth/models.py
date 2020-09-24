@@ -14,13 +14,17 @@ class User(db.Model):
     password = db.Column(db.String(150), nullable = False)
     is_admin = db.Column(db.Boolean, default = False)
 
+    def __init__(self, username: str, email: str):
+        self.username = username
+        self.email = email
+
     def __repr__(self):
         return f'<User {self.username}>'
 
     def encrypt_password(self, password: str):
-        _password_encode = password.encode('utf-8')
+        password_encode = password.encode('utf-8')
         SALT = bcrypt.gensalt(10)
-        self.password = bcrypt.hashpw(_password_encode, SALT)
+        self.password = bcrypt.hashpw(password_encode, SALT)
 
     def check_password(self, password: str):
         password_encode = password.encode()
@@ -38,12 +42,12 @@ class User(db.Model):
 
     # Metodos para obtener un User
     @staticmethod
-    def get_by_id(id: int) -> User:
+    def get_by_id(id: int):
         return User.query.get(id)
 
     @staticmethod
-    def get_by_email(email: str) -> User:
-        return User.query.fillter_by(email=email).first()
+    def get_by_email(email: str):
+        return User.query.filter_by(email=email).first()
 
     @staticmethod
     def get_all():

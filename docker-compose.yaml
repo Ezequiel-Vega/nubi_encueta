@@ -1,7 +1,7 @@
 version: '3'
 
 services: 
-    database:
+    db-numbi:
         image: postgres
         container_name: nubi_db
         restart: always
@@ -10,4 +10,8 @@ services:
             POSTGRES_USER: postgres
             POSTGRES_DB: nubi_survery
         volumes: 
-            - ./database:/var/lib/postgresql/data
+            - database:/var/lib/postgresql/data
+        ports: 
+            - 5432:5432
+volumes: 
+    database:

@@ -1,5 +1,5 @@
 import os
-from app import create_app
+from app import create_app, sqlAlchemy
 from dotenv import load_dotenv
 
 if __name__ == "__main__":
@@ -11,6 +11,10 @@ if __name__ == "__main__":
     host = os.environ.get('HOST', 'localhost')
     port = int(os.environ.get('PORT', 3000))
     debug = bool(os.environ.get('DEBUG', True))
+
+    # Crear tablas
+    with app.app_context():
+        sqlAlchemy.create_all()
 
     # Iniciar aplicacion de Flask
     app.run(
