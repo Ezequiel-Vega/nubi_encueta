@@ -141,3 +141,7 @@ class Answers(db.Model):
                 'msg': 'La encueta ya caduco!'
             }
             return response
+
+    @staticmethod
+    def get_answers_of_survery(survery_id: int):
+        return Answers.query.join(Surverys).filter(Surverys.id == survery_id).all()
