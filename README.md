@@ -1,10 +1,10 @@
 # Flask Encuestas
 apiREST creada con Python y FLask para realizar encuestas en una aplicacion web.
 
-# Quickstart
+## Quickstart
 Se pude iniciar de dos maneras diferentes el apiREST, la primera es desde el codigo fuente y la segunda es usando Docker.
 
-## desde el codigo fuente
+### desde el codigo fuente
 se tendra que crear un fichero ``.env`` en donde se tendra que declarar las siguientes variables
 - ``HOST`` _para declarar el host de la api_
 - ``PORT`` _para declarar el puerto/port de la api_
@@ -23,7 +23,7 @@ Ya que tenemos el entorno virtual iniciado instalaremos las dependencias del pro
 
 Una vez creado el entorno virtual e instalado las dependencias, se tiene que inicar el archivo **entrypoint.py** con el siguiente comando ``python entrypoint.py``. Listo ya tenemos nuestra apiREST funcionando.
 
-## Usando Docker
+### Usando Docker
 Para inicar el apiREST desde Docker solamente se tiene que ejecutar los siguientes comandos desde la carpeta del proyecto: 
 
 ``docker build -t app .``
