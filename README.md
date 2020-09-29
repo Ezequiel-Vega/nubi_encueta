@@ -38,3 +38,6 @@ Para inicar el apiREST desde Docker solamente se tiene que ejecutar los siguient
     -e DATABASE_URI=postgresql://user:password@host:port/namedatabase 
     app
     ``
+    
+## Lo mas dificil del proyecto
+Lo que considere mas dificil del proyecto y fue la estructuracion de la base de datos, como no estaba tan familiarizado con la libreria sqlAlchemy tuve que leer la documentacion varia veces para poder entender como crear las relaciones entre las tablas. 
