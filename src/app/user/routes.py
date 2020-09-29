@@ -69,3 +69,54 @@ def answer_surverys():
       save_answer = model_answer.save()
 
    return jsonify(save_answer)
+
+@app.route('/api/v1/user/all')
+def get_all_user():
+   # Buscar todo los usuarios en la base de datos
+   users_db = User.get_all()
+
+   # Crear lista de usuarios a retornar
+   users = list()
+
+   # Recorrer los usuarios obtenidos en la base de datos
+   for user in users_db:
+      # Creo el diccionario para agregar a la lista
+      user_dic = {
+         'id': user.id,
+         'username': user.username,
+         'email': user.email,
+         'is_admin': user.is_admin
+      }
+
+      # Agregar a la lista
+      users.append(user_dic)
+
+
+   return jsonify({'users': users})
+
+@app.route('/api/v1/user/history')
+def get_history():
+   # Obtener ID
+   user_id = request.json['user_id']
+   
+   # Buscar el historial de encuestas del usuario
+   surverys_db = User.get_all_survery_by_id(user_id)
+
+   # Crear lista para retornar
+   surverys = list()
+
+   # Recorrer objetos obtenidos de la base de datos
+   for survery in surverys_db:
+      # Estructurar diccionario a devolver
+      survery_dic = {
+         'name_survery': survery.name_survery,
+         'questions': survery.questions,
+         'deadlibe': survery.deadline,
+         'created_date': survery.created_date,
+         'labels': survery.labels
+      }
+
+      # Agregar a la lista el diccionario
+      surverys.append(survery_dic)
+
+   return jsonify({'surverys': surverys})

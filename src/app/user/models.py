@@ -1,5 +1,6 @@
 from app import bcrypt
 from app import sqlAlchemy as db
+from app.surveys.models import Surverys
 
 class User(db.Model):
 
@@ -60,11 +61,14 @@ class User(db.Model):
     # Metodos para obtener un User
     @staticmethod
     def get_by_id(id: int):
-        return User.query.get(id)
+        return User.query.filter_by(id = id).first()
 
     @staticmethod
     def get_by_email(email: str):
         return User.query.filter_by(email=email).first()
+
+    def get_all_survery_by_id(id: int):
+        return Surverys.query.join(User).filter(Surverys.user_id == id).all()
 
     @staticmethod
     def get_all():

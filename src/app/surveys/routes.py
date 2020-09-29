@@ -1,3 +1,4 @@
+import datetime
 from . import survery_bp as app
 from flask import request
 from flask import jsonify
@@ -14,18 +15,40 @@ def all_survery():
    
    # Recorer lista obtenida en la base de datos
    for survery in surverys_db:
-      # Estructurar datos a mostrar
-      survery_dict = {
-         'id': survery.id,
-         'name_survery': survery.name_survery,
-         'questions': survery.questions,
-         'deadline': survery.deadline,
-         'created_date': survery.created_date,
-         'labels': survery.labels
-      }
+      # Obtener fechas limites y fecha actual
+      deadline = survery.deadline
+      date_now = datetime.datetime.combine(
+         datetime.date.today(), datetime.time(0, 0)
+      )
 
-      # Guardar los datos en la lista de las encuestas
-      surverys.append(survery_dict)
+      if deadline >= date_now:
+         # Estructurar datos a mostrar
+         survery_dict = {
+            'id': survery.id,
+            'name_survery': survery.name_survery,
+            'questions': survery.questions,
+            'deadline': survery.deadline,
+            'created_date': survery.created_date,
+            'labels': survery.labels,
+            'timed_out': False
+         }
+
+         # Guardar los datos en la lista de las encuestas
+         surverys.append(survery_dict)
+      else:
+         # Estructurar datos a mostrar
+         survery_dict = {
+            'id': survery.id,
+            'name_survery': survery.name_survery,
+            'questions': survery.questions,
+            'deadline': survery.deadline,
+            'created_date': survery.created_date,
+            'labels': survery.labels,
+            'timed_out': True
+         }
+
+         # Guardar los datos en la lista de las encuestas
+         surverys.append(survery_dict)
    return jsonify({'data': surverys})
 
 @app.route('/api/v1/survery/one')
